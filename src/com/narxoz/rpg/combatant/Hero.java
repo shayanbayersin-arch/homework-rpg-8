@@ -44,14 +44,22 @@ public class Hero {
 
     public void setState(HeroState state) {
         this.state = state;
+        System.out.println("  [STATE] " + name + " is now " + state.getName() + "!");
     }
 
     public void takeDamage(int amount) {
         int finalDamage = state.modifyIncomingDamage(amount);
         hp = Math.max(0, hp - finalDamage);
+        System.out.println("  " + name + " takes " + finalDamage + " damage. (HP: " + hp + ")");
+
+        if (hp > 0 && hp <= maxHp * 0.3 && state.getName().equals("Healthy")) {
+            System.out.println("  [EVENT] " + name + " is at low health!");
+            setState(new com.narxoz.rpg.state.BerserkState());
+        }
     }
 
     public void heal(int amount) {
         hp = Math.min(maxHp, hp + amount);
+        System.out.println("  " + name + " heals " + amount + " HP. (HP: " + hp + ")");
     }
 }
